@@ -1,3 +1,3 @@
-const employeeName = require("../index");
+const Employee = require("../index");
 
-test("check for employee name", () => {});
+test("check for employee", () => {});
