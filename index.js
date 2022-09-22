@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
+const generatePage = require("./src/pageTemplate");
 
-const promptUser = () => {
+const promptEmployee = () => {
   return inquirer.prompt([
     {
       type: "input",
@@ -23,7 +24,7 @@ const promptUser = () => {
     {
       type: "input",
       name: "email",
-      message: "What is the employee's email?",
+      message: "What is the employee's email? (Required)",
       validate: (email) => {
         if (email) {
           return true;
@@ -35,15 +36,60 @@ const promptUser = () => {
   ]);
 };
 
-const promptEngineer = () => {
+const promptEngineer = (engineer) => {
   console.log(`
   =================
-  Add a Engineer.
+  Add Engineer Info
   =================
   `);
-  //add engineer info
+  //add to employee info with engineer github
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "link",
+      message: "Enter engineer's GitHub username. (Required)",
+      validate: (github) => {
+        if (github) {
+          return true;
+        } else {
+          console.log("Please enter GitHub username.");
+          return false;
+        }
+      },
+    },
+  ]);
 };
 
-promptUser();
+const promptIntern = (intern) => {
+  console.log(`
+  =================
+  Add Intern Info
+  =================
+  `);
+  //add to employee info with intern school
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "school",
+      message: "Please enter Intern's school name. (Required)",
+      validate: (school) => {
+        if (school) {
+          return true;
+        } else {
+          console.log("Please enter school name.");
+          return false;
+        }
+      },
+    },
+  ]);
+};
 
-promptEngineer();
+promptEmployee()
+  .then(promptEngineer)
+  .then((engineer) => {
+    return generatePage(engineer);
+  })
+  .then(promptIntern)
+  .then((intern) => {
+    return generatePage(intern);
+  });
