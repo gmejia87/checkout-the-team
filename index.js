@@ -1,7 +1,11 @@
+const fs = require("fs");
+const path = require("path");
 const inquirer = require("inquirer");
 const Engineer = require("./lib/Engineer");
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
+const { pageTemplate } = require("./src/pageTemplate");
+const { fileURLToPath } = require("url");
 
 const teamArray = [];
 
@@ -17,7 +21,7 @@ function newEmployee() {
     ])
     .then((answer) => {
       if (answer.type === "None, generate page") {
-        console.log(teamArray);
+        generatePage();
       } else baseQuestions(answer.type);
     });
 }
@@ -112,3 +116,12 @@ function internQuestion(intern) {
 }
 
 newEmployee();
+
+function generatePage() {
+  console.log("writing file...");
+  fs.writeFileSync(
+    path.join(path.resolve(__dirname, "dist"), "team.html"),
+    pageTemplate(),
+    "utf-8"
+  );
+}
