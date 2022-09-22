@@ -1,95 +1,114 @@
 const inquirer = require("inquirer");
-const generatePage = require("./src/pageTemplate");
+const Engineer = require("./lib/Engineer");
+const Manager = require("./lib/Manager");
+const Intern = require("./lib/Intern");
 
-const promptEmployee = () => {
-  return inquirer.prompt([
-    {
-      type: "input",
-      name: "name",
-      message: "What is the employee's name? (Required)",
-      validate: (name) => {
-        if (name) {
-          return true;
-        } else {
-          console.log("Please enter employee's name.");
-          return false;
-        }
-      },
-    },
-    {
-      type: "input",
-      name: "id",
-      message: "What is the employee's id?",
-    },
-    {
-      type: "input",
-      name: "email",
-      message: "What is the employee's email? (Required)",
-      validate: (email) => {
-        if (email) {
-          return true;
-        } else {
-          console.log("Please enter employee's email.");
-        }
-      },
-    },
-  ]);
-};
+const teamArray = [];
 
-const promptEngineer = (engineer) => {
-  console.log(`
-  =================
-  Add Engineer Info
-  =================
-  `);
-  //add to employee info with engineer github
-  return inquirer.prompt([
-    {
-      type: "input",
-      name: "link",
-      message: "Enter engineer's GitHub username. (Required)",
-      validate: (github) => {
-        if (github) {
-          return true;
-        } else {
-          console.log("Please enter GitHub username.");
-          return false;
-        }
+function newEmployee() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "type",
+        message: "Which type of employee do you want to add?",
+        choices: ["Manager", "Engineer", "Intern", "None, generate page"],
       },
-    },
-  ]);
-};
+    ])
+    .then((answer) => {
+      if (answer.type === "None, generate page") {
+        console.log(teamArray);
+      } else baseQuestions(answer.type);
+    });
+}
 
-const promptIntern = (intern) => {
-  console.log(`
-  =================
-  Add Intern Info
-  =================
-  `);
-  //add to employee info with intern school
-  return inquirer.prompt([
-    {
-      type: "input",
-      name: "school",
-      message: "Please enter Intern's school name. (Required)",
-      validate: (school) => {
-        if (school) {
-          return true;
-        } else {
-          console.log("Please enter school name.");
-          return false;
-        }
+function baseQuestions(employeeType) {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is the employee's name?",
       },
-    },
-  ]);
-};
+      {
+        type: "input",
+        name: "id",
+        message: "What is the employee's ID?",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "What is the employee's email address?",
+      },
+    ])
+    .then((answers) => {
+      if (employeeType === "Manager") {
+        managerQuestion(answers);
+      } else if (employeeType === "Engineer") {
+        engineerQuestion(answers);
+      } else if (employeeType === "Intern") {
+        internQuestion(answers);
+      }
+    });
+}
 
-promptEmployee()
-  .then(promptEngineer)
-  .then((engineer) => {
-    return generatePage(engineer);
-  })
-  .then(promptIntern)
-  .then((intern) => {
-    return generatePage(intern);
-  });
+function managerQuestion(manager) {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "officeNumber",
+        message: "What is the manager's office number?",
+      },
+    ])
+    .then((answer) => {
+      teamArray.push(
+        new Manager(
+          manager.name,
+          manager.id,
+          manager.email,
+          answer.officeNumber
+        )
+      );
+      console.log(`${manager.name} added to the database.`);
+      newEmployee();
+    });
+}
+
+function engineerQuestion(engineer) {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "github",
+        message: "What is the engineer's GitHub?",
+      },
+    ])
+    .then((answer) => {
+      teamArray.push(
+        new Engineer(engineer.name, engineer.id, engineer.email, answer.github)
+      );
+      console.log(`${engineer.name} added to the database.`);
+      newEmployee();
+    });
+}
+
+function internQuestion(intern) {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "school",
+        message: "What is the intern's school?",
+      },
+    ])
+    .then((answer) => {
+      teamArray.push(
+        new Intern(intern.name, intern.id, intern.email, answer.school)
+      );
+      console.log(`${intern.name} added to the database.`);
+      newEmployee();
+    });
+}
+
+newEmployee();
