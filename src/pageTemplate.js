@@ -22,7 +22,7 @@ const pageTemplate = (teamArray) => {
                     </div>
                     <div class="card-body">
                         <ul>
-                        <li></li>
+                        <li>${teamArray}</li>
                         <li></li>
                         <li></li>
                         </ul>

@@ -6,6 +6,7 @@ const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
 const { pageTemplate } = require("./src/pageTemplate");
 const { fileURLToPath } = require("url");
+const { type } = require("os");
 
 const teamArray = [];
 
@@ -33,16 +34,40 @@ function baseQuestions(employeeType) {
         type: "input",
         name: "name",
         message: "What is the employee's name?",
+        validate: (nameInput) => {
+          if (nameInput) {
+            return true;
+          } else {
+            console.log("Please enter employee's name.");
+            return false;
+          }
+        },
       },
       {
         type: "input",
         name: "id",
         message: "What is the employee's ID?",
+        validate: (idInput) => {
+          if (idInput) {
+            return true;
+          } else {
+            console.log("Please enter employee's ID.");
+            return false;
+          }
+        },
       },
       {
         type: "input",
         name: "email",
         message: "What is the employee's email address?",
+        validate: (emailInput) => {
+          if (emailInput) {
+            return true;
+          } else {
+            console.log("Please enter employee's email.");
+            return false;
+          }
+        },
       },
     ])
     .then((answers) => {
@@ -63,6 +88,14 @@ function managerQuestion(manager) {
         type: "input",
         name: "officeNumber",
         message: "What is the manager's office number?",
+        validate: (officeNumberInput) => {
+          if (officeNumberInput) {
+            return true;
+          } else {
+            console.log("Please enter manager's office number.");
+            return false;
+          }
+        },
       },
     ])
     .then((answer) => {
@@ -86,6 +119,14 @@ function engineerQuestion(engineer) {
         type: "input",
         name: "github",
         message: "What is the engineer's GitHub?",
+        validate: (githubInput) => {
+          if (githubInput) {
+            return true;
+          } else {
+            console.log("Please enter engineer's GitHub.");
+            return false;
+          }
+        },
       },
     ])
     .then((answer) => {
@@ -104,6 +145,14 @@ function internQuestion(intern) {
         type: "input",
         name: "school",
         message: "What is the intern's school?",
+        validate: (schoolInput) => {
+          if (schoolInput) {
+            return true;
+          } else {
+            console.log("Please enter intern's school.");
+            return false;
+          }
+        },
       },
     ])
     .then((answer) => {
