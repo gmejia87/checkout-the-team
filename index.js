@@ -6,7 +6,6 @@ const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
 const { pageTemplate } = require("./src/pageTemplate");
 const { fileURLToPath } = require("url");
-const { type } = require("os");
 
 const teamArray = [];
 
@@ -170,7 +169,7 @@ function generatePage() {
   console.log("writing file...");
   fs.writeFileSync(
     path.join(path.resolve(__dirname, "dist"), "team.html"),
-    pageTemplate(),
+    pageTemplate(teamArray),
     "utf-8"
   );
 }
