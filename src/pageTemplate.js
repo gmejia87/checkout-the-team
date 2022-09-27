@@ -1,4 +1,8 @@
-//create team cards
+const Employee = require("../lib/Employee");
+const Engineer = require("../lib/Engineer");
+const Intern = require("../lib/Intern");
+const Manager = require("../lib/Manager");
+
 const pageTemplate = (teamArray) => {
   return `
   <!DOCTYPE html>
@@ -11,37 +15,32 @@ const pageTemplate = (teamArray) => {
       <title>Checkout The Team</title>
   </head>
     <body>
-        <header>
-            <h1>My Team</h1>
-        </header>
-
-        <main>
-            <div class="card-container">
-            ${teamArray.map(
-              ({ type, name, id, email, officeNumber, github, school }) => {
-                return `
-                <div class="card">
-                    <div class="card-header">
-                        <h2>${name}</h2>
-                        <h2>${type}</h2>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>ID:${id}</li>
-                            <li>Email:<a href="mailto:${email}">${email}</a></li>
-                            <li>Office Number:${officeNumber}</li>
-                            <li>GitHub:<a href="https://github.com/${github}">${github}</a>
-                            <li>${school}</li>
-                        </ul>
-                    </div>
-                </div>
+      <header>
+        <h1>My Team</h1>
+      </header>
+      <main>
+      <div class="card-container">
+      ${teamArray.map(
+        ({ type, name, id, email, officeNumber, github, school }) => {
+          return `      
+          <div class="card">
+            <div class="card-header">
+              <h2>${name}</h2>
+              <h3>${type}</h3>
             </div>
-        </main>
-    </body>
-    </html>       
-    `;
-              }
-            )}
+            <div class="card-body">
+              <ul>
+                <li>ID:${id}</li>
+                <li>Email:<a href="mailto:${email}">${email}</a></li>
+                <li>Office Number:${officeNumber}</li>
+                <li>GitHub:<a href="https://github.com/${github}">${github}</a>
+                <li>${school}</li>
+              </ul>
+            </div>
+          </div>
+      `;
+        }
+      )}
   `;
 };
 

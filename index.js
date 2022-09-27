@@ -166,7 +166,7 @@ function internQuestion(intern) {
 newEmployee();
 
 function generatePage() {
-  console.log("writing file...");
+  console.log("File written.");
   fs.writeFileSync(
     path.join(path.resolve(__dirname, "dist"), "team.html"),
     pageTemplate(teamArray),
