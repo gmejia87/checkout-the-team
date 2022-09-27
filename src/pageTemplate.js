@@ -16,12 +16,12 @@ const pageTemplate = (teamArray) => {
       <main>
       <div class="card-container">
       ${teamArray.map(
-        ({ type, name, id, email, officeNumber, github, school }) => {
+        ({ typeChoice, name, id, email, officeNumber, github, school }) => {
           return `      
           <div class="card">
             <div class="card-header">
               <h2>${name}</h2>
-              <h3>${type}</h3>
+              <h3>${typeChoice}</h3>
             </div>
             <div class="card-body">
               <ul>
